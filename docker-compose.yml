@@ -1,0 +1,27 @@
+version: '2'
+
+services:
+  mariadb:
+    image: docker.io/bitnami/mariadb:11.0
+    ports:
+      - '3306:3306'
+    environment:
+      - MARIADB_ROOT_PASSWORD=12345aulas
+      - MARIADB_USER=tecuser
+      - MARIADB_PASSWORD=12345aulas # misma contraseña
+      - MARIADB_DATABASE=AulasITCH
+
+  myapp:
+    image: docker.io/bitnami/laravel:10
+    ports:
+      - '8000:8000'
+    environment:
+      - DB_HOST=mariadb
+      - DB_PORT=3306
+      - DB_USERNAME=tecuser
+      - DB_PASSWORD=12345aulas # misma conbtrseaña de arriba
+      - DB_DATABASE=AulasITCH
+    volumes:
+      - './myapiaulas:/app'
+    depends_on:
+      - mariadb
